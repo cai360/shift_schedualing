@@ -1,7 +1,7 @@
 # shift_schedualing
 final project for cs50x
 
-
+```
 schedule-system/
 ├── backend/         
 │   ├── app.py       
@@ -16,3 +16,4 @@ schedule-system/
 ├── README.md        
 ├── requirements.txt 
 └── .gitignore       
+```
