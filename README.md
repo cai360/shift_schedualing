@@ -3,17 +3,14 @@ final project for cs50x
 
 ```
 schedule-system/
-├── backend/         
-│   ├── app.py       
-│   ├── models/      
-│   ├── routes/      
-│   ├── utils/       
-│   └── config.py    
-├── frontend/        
-│   ├── index.html   
-│   ├── components/  
-│   └── static/      
-├── README.md        
-├── requirements.txt 
-└── .gitignore       
+├── app.py            
+├── templates/        
+├── static/           
+│   ├── css/
+│   └── js/
+├── models.py        
+├── routes.py         
+├── forms.py          
+├── database.db       
+└── requirements.txt       
 ```
