@@ -11,7 +11,7 @@
         <div class="mb-3">
             <label for="year">year</label>
             <select id="year" name="year" class="form-control mx-auto w-auto">
-                {% for year in range(default_year-3, default_year +10) %}
+                {% for year in range(default_year - 3, default_year +10) %}
                     <option value="{{ year }}" {% if year==default_year %}selected{% endif %}>
                         {{ year }}
                     </option>
@@ -45,7 +45,7 @@
         <div class="mb-3">
             <select name="starting_min" class="form-control mx-auto w-auto">
                 {% for starting_min in range(0, 60, 10) %}
-                    <option value="{{ default_starting_min }}" {% if startingmin==default_starting_min %}selected{% endif %}>
+                    <option value="{{ starting_min }}" {% if startingmin==default_starting_min %}selected{% endif %}>
                         {{ "%02d"|format(starting_min) }}
                     </option>
                 {% endfor %}
@@ -66,7 +66,7 @@
         <div class="mb-3">
             <select name="ending_min" class="form-control mx-auto w-auto">
                 {% for ending_min in range(0, 60, 10) %}
-                    <option value="{{ default_ending_min }}" {% if endingmin==default_ending_min %}selected{% endif %}>
+                    <option value="{{ ending_min }}" {% if endingmin==default_ending_min %}selected{% endif %}>
                         {{ "%02d"|format(ending_min) }}
                     </option>
                 {% endfor %}
@@ -77,4 +77,7 @@
 
         <button class="btn btn-primary" type="submit">add</button>
     </form>
+
+
+    
 {% endblock %}

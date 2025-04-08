@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    empty shift
+{% endblock %}
+
+
+
+{% block main %}
+    <table>
+        <thead>
+            <tr>
+                <th scope="col"> </th>
+                <th scope="col">date</th>
+                {% for row in datelist %}
+                    {% for i in range(5) %}
+                        {% if row[i][0] != 0 %}
+                            <th scope="col">{{ row[i][0] }} 
+                        {% endif %}
+                            </th>
+                    {% endfor %}
+                {% endfor %}
+            </tr> 
+            
+            <tr>
+                <th scope="col"> </th>
+                <th scope="col">weeks</th>
+                {% for row in datelist %}
+                    {% for i in range(5) %}
+                        {% if row[i][0] != 0 %}
+                            <th scope="col">{{ row[i][1] + 1 }} 
+                        {% endif %}
+                            </th>
+                    {% endfor %}
+                {% endfor %}
+            </tr>    
+        </thead>
+
+        <tbody>
+
+        </tbody>
+    </table>
+{% endblock %}

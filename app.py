@@ -5,6 +5,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime, timedelta
 import random
 import string
+import calendar
 
 from helper import login_required, apology
 
@@ -174,19 +175,19 @@ def delete_user():
 @login_required
 def create_empty_shifts():
     """create the empty shifts"""
+
+    current_date = datetime.today()
+
+    # Calculate next month
+    next_month = current_date.replace(day=1) + timedelta(days=32)
+    default_year = next_month.year
+    default_month = next_month.month
+
     if request.method == "GET":
-        current_date = datetime.today()
-
-        # Calculate next month
-        next_month = current_date.replace(day=1) + timedelta(days=32)
-        default_year = next_month.year
-        default_month = next_month.month
-
         return render_template("create_empty_shifts.html", default_year=default_year, default_month=default_month)
+    
     else:
-
-
-        year = request.form.get("year")
+        year = int(request.form.get("year"))
         if not year:
             year = current_date.year
         
@@ -194,35 +195,44 @@ def create_empty_shifts():
             return apology("Ivaliad year")
 
 
-        # month = request.form.get("month")
-        # if not month:
-        #     month = current_date.month
+        month = int(request.form.get("month"))
 
-        # if month < 1 or month > 12:
-        #     return apology("Ivaliad month")
+        if not month:
+            return apology("Month must be given")
         
-   
-        # startTime = request.form.get("startTime")
-        # if not startTime:
-        #     return apology("start time must be given")
-        # if startTime > 23 or startTime < 0:
-        #     return apology("Invaliad starting time")
+
+        starting_hour = request.form.get("starting_hour")
+        if not starting_hour:
+            return apology("Starting hour must be given")
         
-        # endTime = request.form.get("endTime")
-        # if not endTime:
-        #     return apology("end time must be given")
-        # if endTime > 24 or endTime < startTime:
-        #     return apology("Ivaliad endTime")
+        starting_min = request.form.get("starting_min")
+        if not starting_min:
+            return apology("Starting min must be given")
+        
+        ending_hour = request.form.get("ending_hour")
+        if not ending_hour:
+            return apology("ending hour must be given")
+        
+        ending_min = request.form.get("ending_min")
+        if not ending_min:
+            return apology("ending min must be given")
         
         # interval = request.form.get("interval")
         # if not interval:
         #     return apology("Interval must be given")
         
+        cal = calendar.Calendar()
+        datelist = cal.monthdays2calendar(year, month)
 
-        return render_template("create_empty_shifts.html")
+        return render_template("create_empty_shifts2.html", datelist = datelist, year = year, month = month)
         
+# @app.route("/create_empty_shifts2", methods=["GET", "POST"])
+# @login_required
+# def create_empty_shifts2():
+#     if request.method == "GET": 
+#         return render_template("create_empty_shifts2.html")
 
-    return apology("TODO")
+
 
 @app.route("/assign_shifts", methods=["GET", "POST"])
 @login_required
