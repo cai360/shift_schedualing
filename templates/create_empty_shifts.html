@@ -5,78 +5,97 @@
 {% endblock %}
 
 {% block main %}
-    <h2>Choose a Year and Month for Scheduling</h2>
-    <form action="/create_empty_shifts" method="post">
-        
-        <div class="mb-3">
-            <label for="year">year</label>
-            <select id="year" name="year" class="form-control mx-auto w-auto">
-                {% for year in range(default_year - 3, default_year +10) %}
-                    <option value="{{ year }}" {% if year==default_year %}selected{% endif %}>
-                        {{ year }}
-                    </option>
-                {% endfor %}
-            </select>
+       
+    <form action="/create_empty_shifts" method="post" class="container my-5" style="max-width: 500px;">
+        <h2 class="text-center mb-4">Choose a Year and Month for Scheduling</h2>
+    
+        <!-- Year & Month -->
+        <div class="row mb-3">
+            <div class="col">
+                <label for="year" class="form-label">Year</label>
+                <select id="year" name="year" class="form-select">
+                    {% for year in range(default_year - 3, default_year + 10) %}
+                        <option value="{{ year }}" {% if year == default_year %}selected{% endif %}>
+                            {{ year }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col">
+                <label for="month" class="form-label">Month</label>
+                <select id="month" name="month" class="form-select">
+                    {% for month in range(1, 13) %}
+                        <option value="{{ month }}" {% if month == default_month %}selected{% endif %}>
+                            {{ month }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-
+    
+        <!-- From -->
         <div class="mb-3">
-            <label for="month">month</label>
-            <select id="month" name="month" class="form-control mx-auto w-auto">
-                {% for month in range(1, 13) %}
-                    <option value="{{ month }}" {% if month==default_month %}selected{% endif %}>
-                        {{ month }}
-                    </option>
-                {% endfor %}
-            </select>
+            <label class="form-label">From</label>
+            <div class="d-flex gap-2">
+                <select name="starting_hour" class="form-select">
+                    {% for h in range(0, 24) %}
+                        <option value="{{ h }}" {% if h == default_starting_hour %}selected{% endif %}>
+                            {{ "%02d"|format(h) }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <select name="starting_min" class="form-select">
+                    {% for m in [0, 30] %}
+                        <option value="{{ m }}" {% if m == default_starting_min %}selected{% endif %}>
+                            {{ "%02d"|format(m) }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-
-        
+    
+        <!-- To -->
         <div class="mb-3">
-            <label for="starting">From</label>
-            <select id="starting" name="starting_hour" class="form-control mx-auto w-auto">
-                {% for starting_hour in range(0, 24) %}
-                    <option value="{{ starting_hour }}" {% if startinghour==default_starting_hour %}selected{% endif %}>
-                        {{ "%02d"|format(starting_hour) }}
-                    </option>
-                {% endfor %}
-            </select>
+            <label class="form-label">To</label>
+            <div class="d-flex gap-2">
+                <select name="ending_hour" class="form-select">
+                    {% for h in range(0, 24) %}
+                        <option value="{{ h }}" {% if h == default_ending_hour %}selected{% endif %}>
+                            {{ "%02d"|format(h) }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <select name="ending_min" class="form-select">
+                    {% for m in [0, 30] %}
+                        <option value="{{ m }}" {% if m == default_ending_min %}selected{% endif %}>
+                            {{ "%02d"|format(m) }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <select name="starting_min" class="form-control mx-auto w-auto">
-                {% for starting_min in range(0, 60, 10) %}
-                    <option value="{{ starting_min }}" {% if startingmin==default_starting_min %}selected{% endif %}>
-                        {{ "%02d"|format(starting_min) }}
-                    </option>
-                {% endfor %}
-            </select>
+    
+        <!-- Interval -->
+        <div class="mb-4 text-center">
+            <label class="form-label d-block">Interval</label>
+            <div class="d-flex justify-content-center align-items-center gap-2">    
+                <select name="interval" class="form-select w-auto">
+                    {% for interval in range(1, 25) %}
+                        <option value="{{ interval }}" {% if interval == default_interval %}selected{% endif %}>
+                            {{ interval }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <span>hr</span>
+            </div>
         </div>
-
-        <div class="mb-3">
-            <label for="ending">to</label>
-            <select id="ending" name="ending_hour" class="form-control mx-auto w-auto">
-                {% for ending_hour in range(0, 24) %}
-                    <option value="{{ ending_hour }}" {% if endinghour==default_ending_hour %}selected{% endif %}>
-                        {{ "%02d"|format(ending_hour) }}
-                    </option>
-                {% endfor %}
-            </select>
+    
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary w-100">Add</button>
         </div>
-
-        <div class="mb-3">
-            <select name="ending_min" class="form-control mx-auto w-auto">
-                {% for ending_min in range(0, 60, 10) %}
-                    <option value="{{ ending_min }}" {% if endingmin==default_ending_min %}selected{% endif %}>
-                        {{ "%02d"|format(ending_min) }}
-                    </option>
-                {% endfor %}
-            </select>
-        </div>
-
-
-
-        <button class="btn btn-primary" type="submit">add</button>
     </form>
+        
 
 
     

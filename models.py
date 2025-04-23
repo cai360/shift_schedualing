@@ -25,11 +25,9 @@ db.execute("""
     CREATE TABLE schedule (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
         employee_id INTEGER,
-        month INTERGER NOT NULL,
-        date INTERGER NOT NULL,       
-        shift_date DATE NOT NULL,           
-        start_time TIME NOT NULL,           
-        end_time TIME NOT NULL,             
+        date NUMERIC,                
+        start_time TIME,           
+        end_time TIME,             
         FOREIGN KEY(employee_id) REFERENCES users(id) ON DELETE CASCADE
     )
  """)

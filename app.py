@@ -2,14 +2,14 @@ from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 import random
 import string
 import calendar
+from schedual import Schedual
 
 from helper import login_required, apology
-
-
+# import schedual
 
 
 # Configure application
@@ -20,6 +20,7 @@ db = SQL("sqlite:///shift_schedualing.db")
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
 
 @app.after_request
 def after_request(response):
@@ -66,6 +67,7 @@ def login():
     else:
         return render_template("login.html")
 
+
 @app.route("/logout")
 def logout():
     """Log user out"""
@@ -76,10 +78,11 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
+
 @app.route("/forgetPassword")
 def forgetPassword():
     return apology("TODO")
-    
+
 
 @app.route("/changePassword", methods=["GET", "POST"])
 @login_required
@@ -89,32 +92,33 @@ def changePassword():
         return render_template("changePassword.html")
     else:
         userID = session["user_id"]
-        #get the current password and new password
+        # get the current password and new password
         if not request.form.get("current_password"):
             return apology("Must provide current password", 403)
         elif not request.form.get("new_password"):
             return apology("Must provide password", 403)
-        
+
         elif not request.form.get("passwordConfirm"):
             return apology("Must confirm your new password", 403)
 
-         #check is the userID and password matches
+         # check is the userID and password matches
         rows = db.execute(
             "SELECT * FROM users WHERE id = ?", userID)
 
-         #to check if current password is correct
+        # to check if current password is correct
         hash = db.execute("SELECT hash FROM users WHERE id = ?", userID)
 
         if not check_password_hash(hash[0]["hash"], request.form.get("current_password")):
             return apology("Password incorrect")
 
-         #check is the new password and the confirmation are match
+         # check is the new password and the confirmation are match
         if request.form.get("new_password") != request.form.get("passwordConfirm"):
             return apology("New password do not match")
-        
-         #change the password
+
+         # change the password
         else:
-            db.execute("UPDATE users SET hash=? WHERE id=?", generate_password_hash(request.form.get("passwordConfirm")), userID)
+            db.execute("UPDATE users SET hash=? WHERE id=?", generate_password_hash(
+                request.form.get("passwordConfirm")), userID)
             flash("Succese!")
 
         return redirect("/")
@@ -123,6 +127,7 @@ def changePassword():
 """
 function for manager
 """
+
 
 @app.route("/register", methods=["GET", "POST"])
 @login_required
@@ -134,18 +139,20 @@ def register():
         username = request.form.get("username")
         role = request.form.get("role")
 
-        #generate a temporary password, lengh: k=8 
-        password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        # generate a temporary password, lengh: k=8
+        password = ''.join(random.choices(
+            string.ascii_letters + string.digits, k=8))
 
         hash = generate_password_hash(password)
 
-        #register the user
-        db.execute("INSERT INTO users (username, hash, role) VALUES(?, ?, ?)", username, hash, role)
-
+        # register the user
+        db.execute(
+            "INSERT INTO users (username, hash, role) VALUES(?, ?, ?)", username, hash, role)
 
         flash("success! ")
-        flash("temporary password: "+ password)
+        flash("temporary password: " + password)
         return render_template("register.html")
+
 
 @app.route("/delete_user", methods=["GET", "POST"])
 @login_required
@@ -160,13 +167,15 @@ def delete_user():
         elif not request.form.get("user_id"):
             return apology("must provide user ID", 403)
 
-        #delete the user
-        row = db.execute("SELECT * FROM users WHERE username = ? AND user_id = ?", request.form.get("username"), request.form.get("user_id"))
+        # delete the user
+        row = db.execute("SELECT * FROM users WHERE username = ? AND user_id = ?",
+                         request.form.get("username"), request.form.get("user_id"))
 
         if len(row) == 0:
             return apology("User not found")
         else:
-            db.execute("DELETE FROM users WHERE username = ? AND user_id = ?", request.form.get("username"), request.form.get("user_id"))
+            db.execute("DELETE FROM users WHERE username = ? AND user_id = ?",
+                       request.form.get("username"), request.form.get("user_id"))
             flash("deleted!")
             return render_template("delete_user.html")
 
@@ -182,56 +191,60 @@ def create_empty_shifts():
     next_month = current_date.replace(day=1) + timedelta(days=32)
     default_year = next_month.year
     default_month = next_month.month
+    default_interval = 1
 
     if request.method == "GET":
-        return render_template("create_empty_shifts.html", default_year=default_year, default_month=default_month)
-    
+        return render_template("create_empty_shifts.html", default_year=default_year, default_month=default_month, default_interval=default_interval)
+
     else:
         year = int(request.form.get("year"))
         if not year:
             year = current_date.year
-        
+
         if int(year) < 0:
             return apology("Ivaliad year")
-
 
         month = int(request.form.get("month"))
 
         if not month:
             return apology("Month must be given")
         
+        if month > 12 or month < 1:
+            return apology("Ivaliad month")
 
-        starting_hour = request.form.get("starting_hour")
+        starting_hour =  int(request.form.get("starting_hour"))
         if not starting_hour:
             return apology("Starting hour must be given")
-        
-        starting_min = request.form.get("starting_min")
+
+        starting_min = int(request.form.get("starting_min"))
         if not starting_min:
             return apology("Starting min must be given")
-        
-        ending_hour = request.form.get("ending_hour")
+
+        ending_hour = int(request.form.get("ending_hour"))
         if not ending_hour:
             return apology("ending hour must be given")
-        
-        ending_min = request.form.get("ending_min")
+
+        ending_min = int(request.form.get("ending_min"))
         if not ending_min:
             return apology("ending min must be given")
-        
-        # interval = request.form.get("interval")
-        # if not interval:
-        #     return apology("Interval must be given")
-        
-        cal = calendar.Calendar()
-        datelist = cal.monthdays2calendar(year, month)
 
-        return render_template("create_empty_shifts2.html", datelist = datelist, year = year, month = month)
-        
+        interval = int(request.form.get("interval"))
+        if not interval:
+            return apology("Interval must be given")
+
+        try:
+            sched = Schedual(year, month)
+            shifts = sched.generate_shifts()
+        except ValueError as e:
+            return apology(str(e))
+
+        return render_template("create_empty_shifts2.html", datelist=shifts, year=year, month=month, interval=interval)
+
 # @app.route("/create_empty_shifts2", methods=["GET", "POST"])
 # @login_required
 # def create_empty_shifts2():
-#     if request.method == "GET": 
+#     if request.method == "GET":
 #         return render_template("create_empty_shifts2.html")
-
 
 
 @app.route("/assign_shifts", methods=["GET", "POST"])
@@ -239,6 +252,7 @@ def create_empty_shifts():
 def assign_shifts():
     """assign the shifts"""
     return apology("TODO")
+
 
 @app.route("/change_shift_m", methods=["GET", "POST"])
 @login_required
@@ -272,6 +286,7 @@ def print():
 function for employee
 """
 
+
 @app.route("/pick_up_shift", methods=["GET", "POST"])
 @login_required
 def pick_up_shifte():
@@ -292,7 +307,7 @@ def comfirm_schedule():
     """to comfirm the schedual, which has time limit (after 3 days the schedual publish)"""
     return apology("TODO")
 
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
-
