@@ -9,39 +9,42 @@
 {% block main %}
     <table class="table-sm table-bordered">
         <thead>
+            {% set weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
             <tr>
                 <th scope="col">date</th>
-                {% set weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
                 {% for row in datelist %}
-                    {% for i in range(5) %}
-                        {% if row[i][0] != 0 %}
-                            <th scope="col">{{ row[i][0] }} 
+                    {% for day in row %}
+                        {% if day[0] != 0 %}
+                            <th scope="col">{{ day[0] }}</th>
                         {% endif %}
-                            </th>
                     {% endfor %}
                 {% endfor %}
-            </tr> 
-            
+            </tr>
             <tr>
                 <th scope="col">weeks</th>
-
                 {% for row in datelist %}
-                    {% for i in range(5) %}
-                        {% if row[i][0] != 0 %}
-                            <th scope="col">{{ weekdays[row[i][1]]}} 
+                    {% for day in row %}
+                        {% if day[0] != 0 %}
+                            <th scope="col">{{ weekdays[day[1]] }}</th>
                         {% endif %}
-                            </th>
                     {% endfor %}
                 {% endfor %}
-            </tr>    
+            </tr>
         </thead>
 
         <tbody>          
-            {% for c in col%}
-            <tr>
-                <th scope="row">{{ '%02d' % c[0] }}:00 <br>-<br>{{ '%02d' % c[1] }}:00</th>
-            </tr>
-            {% endfor %}
+            {% for c in col %}
+                <tr>
+                    <th scope="row">{{ '%02d' % c[0] }}:00 <br>-<br>{{ '%02d' % c[1] }}:00</th>
+                    {% for row in datelist %}
+                        {% for day in row %}
+                            {% if day[0] != 0 %}
+                                <td></td>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
         </tbody>
     </table>
 {% endblock %}

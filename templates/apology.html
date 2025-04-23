@@ -7,5 +7,9 @@
 {% block main %}
     <!-- https://memegen.link/ -->
     <img alt="{{ top }}" class="border img-fluid" src="https://api.memegen.link/images/custom/{{ top | urlencode }}/{{ bottom | urlencode }}.jpg?background=https://i.imgur.com/pcFIdU8.jpg&width=400" title="{{ top }}">
+
+    <div class="mt-4 text-center">
+        <button class="btn btn-primary" onclick="history.back()">back to previous page</button>
+    </div>
 {% endblock %}
 

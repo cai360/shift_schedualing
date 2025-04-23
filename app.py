@@ -220,10 +220,16 @@ def create_empty_shifts():
         ending_hour = int(request.form.get("ending_hour"))
         if not ending_hour:
             return apology("ending hour must be given")
+        elif ending_hour <= starting_hour:
+            return apology("Ending hour must be greater than starting hour")
 
         interval = int(request.form.get("interval"))
         if not interval:
             return apology("Interval must be given")
+        elif (ending_hour - starting_hour) % interval != 0:
+            return apology("Working hours must be a multiple of the interval you set.")
+
+
 
         try:
             sched = Schedual(year, month, starting_hour, ending_hour, interval)
@@ -233,12 +239,6 @@ def create_empty_shifts():
             return apology(str(e))
 
         return render_template("create_empty_shifts2.html", datelist=shifts, year=year, month=month, interval=interval, col = col)
-
-# @app.route("/create_empty_shifts2", methods=["GET", "POST"])
-# @login_required
-# def create_empty_shifts2():
-#     if request.method == "GET":
-#         return render_template("create_empty_shifts2.html")
 
 
 @app.route("/assign_shifts", methods=["GET", "POST"])

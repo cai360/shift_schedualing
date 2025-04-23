@@ -21,8 +21,8 @@ class Schedual:
     def hour_interval(self) -> List[int]: 
         working_hr = self.end - self.start
         working = []
-        for i in range(working_hr):
-            working.append([self.start + i, self.start + i + 1])
+        for i in range(0 ,working_hr, self.interval):
+            working.append([self.start + i, self.start + i + self.interval])
 
         return working
 

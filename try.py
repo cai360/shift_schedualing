@@ -28,7 +28,7 @@ monthdays2 = cal.monthdays2calendar(2025, 3)
 monthdays = cal.monthdayscalendar(2025, 3)
 
 
-sch = Schedual(2025, 4, 8, 16, 2)
+sch = Schedual(2025, 4, 8, 17, 2)
 list = sch.hour_interval()
 
 for i in list:
