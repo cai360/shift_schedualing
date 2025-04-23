@@ -188,9 +188,10 @@ def create_empty_shifts():
     current_date = datetime.today()
 
     # Calculate next month
-    next_month = current_date.replace(day=1) + timedelta(days=32)
-    default_year = next_month.year
-    default_month = next_month.month
+    next = current_date.replace(day=1) + timedelta(days=32)
+    default_year = next.year
+    default_month = next.month
+    
     default_interval = 1
 
     if request.method == "GET":
@@ -216,29 +217,22 @@ def create_empty_shifts():
         if not starting_hour:
             return apology("Starting hour must be given")
 
-        starting_min = int(request.form.get("starting_min"))
-        if not starting_min:
-            return apology("Starting min must be given")
-
         ending_hour = int(request.form.get("ending_hour"))
         if not ending_hour:
             return apology("ending hour must be given")
-
-        ending_min = int(request.form.get("ending_min"))
-        if not ending_min:
-            return apology("ending min must be given")
 
         interval = int(request.form.get("interval"))
         if not interval:
             return apology("Interval must be given")
 
         try:
-            sched = Schedual(year, month)
+            sched = Schedual(year, month, starting_hour, ending_hour, interval)
             shifts = sched.generate_shifts()
+            col = sched.hour_interval()
         except ValueError as e:
             return apology(str(e))
 
-        return render_template("create_empty_shifts2.html", datelist=shifts, year=year, month=month, interval=interval)
+        return render_template("create_empty_shifts2.html", datelist=shifts, year=year, month=month, interval=interval, col = col)
 
 # @app.route("/create_empty_shifts2", methods=["GET", "POST"])
 # @login_required

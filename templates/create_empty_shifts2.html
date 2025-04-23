@@ -7,7 +7,7 @@
 
 
 {% block main %}
-    <table>
+    <table class="table-sm table-bordered">
         <thead>
             <tr>
                 <th scope="col">date</th>
@@ -36,12 +36,12 @@
             </tr>    
         </thead>
 
-        <tbody>
-
+        <tbody>          
+            {% for c in col%}
             <tr>
-                <th scope="row">try</th>
+                <th scope="row">{{ '%02d' % c[0] }}:00 <br>-<br>{{ '%02d' % c[1] }}:00</th>
             </tr>
-
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

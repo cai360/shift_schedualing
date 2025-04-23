@@ -33,48 +33,31 @@
             </div>
         </div>
     
-        <!-- From -->
-        <div class="mb-3">
-            <label class="form-label">From</label>
-            <div class="d-flex gap-2">
-                <select name="starting_hour" class="form-select">
+        <!-- From & To -->
+        <div class="row mb-3">
+            <div class="col">
+                <label for="starting_hour" class="form-label">From</label>
+                <select name="starting_hour" id="starting_hour" class="form-select">
                     {% for h in range(0, 24) %}
                         <option value="{{ h }}" {% if h == default_starting_hour %}selected{% endif %}>
                             {{ "%02d"|format(h) }}
                         </option>
                     {% endfor %}
                 </select>
-                <select name="starting_min" class="form-select">
-                    {% for m in [0, 30] %}
-                        <option value="{{ m }}" {% if m == default_starting_min %}selected{% endif %}>
-                            {{ "%02d"|format(m) }}
-                        </option>
-                    {% endfor %}
-                </select>
             </div>
-        </div>
-    
-        <!-- To -->
-        <div class="mb-3">
-            <label class="form-label">To</label>
-            <div class="d-flex gap-2">
-                <select name="ending_hour" class="form-select">
+            <div class="col">
+                <label for="ending_hour" class="form-label">To</label>
+                <select name="ending_hour" id="ending_hour" class="form-select">
                     {% for h in range(0, 24) %}
                         <option value="{{ h }}" {% if h == default_ending_hour %}selected{% endif %}>
                             {{ "%02d"|format(h) }}
                         </option>
                     {% endfor %}
                 </select>
-                <select name="ending_min" class="form-select">
-                    {% for m in [0, 30] %}
-                        <option value="{{ m }}" {% if m == default_ending_min %}selected{% endif %}>
-                            {{ "%02d"|format(m) }}
-                        </option>
-                    {% endfor %}
-                </select>
             </div>
         </div>
-    
+
+
         <!-- Interval -->
         <div class="mb-4 text-center">
             <label class="form-label d-block">Interval</label>
@@ -89,6 +72,24 @@
                 <span>hr</span>
             </div>
         </div>
+
+        <!-- Regular Rest Weeks -->
+        <div class="mb-4 text-center">
+            <label class="form-label d-block">Regular Rest Days</label>
+            <div class="d-flex justify-content-center flex-wrap gap-3">
+                {% set weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
+                {% for i in range(7) %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="{{ weekdays[i] }}" name="{{ weekdays[i] }}" value="{{ i }}">
+                        <label class="form-check-label" for="{{ weekdays[i] }}">
+                            {{ weekdays[i] }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
     
         <!-- Submit Button -->
         <div class="text-center">
