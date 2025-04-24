@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, time
 import random
 import string
 import calendar
-from schedual import Schedual
+from schedule import Schedule
 
 from helper import login_required, apology
 # import schedual
@@ -229,14 +229,17 @@ def create_empty_shifts():
         elif (ending_hour - starting_hour) % interval != 0:
             return apology("Working hours must be a multiple of the interval you set.")
 
-
+        rest_weeks = request.form.getlist('rest_weeks')
+        rest_weeks_int = list(map(int, rest_weeks))
 
         try:
-            sched = Schedual(year, month, starting_hour, ending_hour, interval)
+            sched = Schedule(year, month, starting_hour, ending_hour, interval)
             shifts = sched.generate_shifts()
+            shifts = sched.rest_dates(rest_weeks_int)
             col = sched.hour_interval()
         except ValueError as e:
             return apology(str(e))
+        
 
         return render_template("create_empty_shifts2.html", datelist=shifts, year=year, month=month, interval=interval, col = col)
 

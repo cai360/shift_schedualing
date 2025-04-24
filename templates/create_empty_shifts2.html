@@ -10,26 +10,18 @@
     <table class="table-sm table-bordered">
         <thead>
             {% set weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
-            <tr>
-                <th scope="col">date</th>
-                {% for row in datelist %}
-                    {% for day in row %}
-                        {% if day[0] != 0 %}
-                            <th scope="col">{{ day[0] }}</th>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            </tr>
-            <tr>
-                <th scope="col">weeks</th>
-                {% for row in datelist %}
-                    {% for day in row %}
-                        {% if day[0] != 0 %}
-                            <th scope="col">{{ weekdays[day[1]] }}</th>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            </tr>
+        <tr>
+            <th scope="col">date</th>
+            {% for row in datelist %}
+                        <th scope="col">{{ row[0] }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th scope="col">weeks</th>
+            {% for row in datelist %}
+                        <th scope="col">{{ weekdays[row[1]] }}</th>
+            {% endfor %}
+        </tr>
         </thead>
 
         <tbody>          
@@ -37,11 +29,7 @@
                 <tr>
                     <th scope="row">{{ '%02d' % c[0] }}:00 <br>-<br>{{ '%02d' % c[1] }}:00</th>
                     {% for row in datelist %}
-                        {% for day in row %}
-                            {% if day[0] != 0 %}
                                 <td></td>
-                            {% endif %}
-                        {% endfor %}
                     {% endfor %}
                 </tr>
                 {% endfor %}

@@ -80,7 +80,7 @@
                 {% set weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
                 {% for i in range(7) %}
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="{{ weekdays[i] }}" name="{{ weekdays[i] }}" value="{{ i }}">
+                        <input class="form-check-input" type="checkbox" id="{{ weekdays[i] }}" name="rest_weeks" value="{{ i }}">
                         <label class="form-check-label" for="{{ weekdays[i] }}">
                             {{ weekdays[i] }}
                         </label>
