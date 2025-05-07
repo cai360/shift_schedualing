@@ -7,32 +7,50 @@
 
 
 {% block main %}
-    <table class="table-sm table-bordered">
-        <thead>
-            {% set weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
-        <tr>
-            <th scope="col">date</th>
-            {% for row in datelist %}
-                        <th scope="col">{{ row[0] }}</th>
-            {% endfor %}
-        </tr>
-        <tr>
-            <th scope="col">weeks</th>
-            {% for row in datelist %}
-                        <th scope="col">{{ weekdays[row[1]] }}</th>
-            {% endfor %}
-        </tr>
-        </thead>
 
-        <tbody>          
-            {% for c in col %}
-                <tr>
-                    <th scope="row">{{ '%02d' % c[0] }}:00 <br>-<br>{{ '%02d' % c[1] }}:00</th>
-                    {% for row in datelist %}
-                                <td></td>
-                    {% endfor %}
-                </tr>
+<form action="/modified_empty_shifts" method="POST">
+    <div>
+        <label for="modified">
+            Input date
+            <input id="modified" name="modified" type="number" min="1">
+        </label>
+        <button class="btn btn-primary" type="submit" name="action" value="add">add</button>   
+        <button class="btn btn-primary" type="submit" name="action" value="delete">delete</button>
+    </div>
+</form>
+
+    <div class="table-responsive">   
+        <table class="table-sm text-center align-middle table-bordered">
+            
+            <thead>
+                {% set weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
+            <tr>
+                <th scope="col">date</th>
+                {% for row in datelist %}
+                            <th scope="col">
+                                 {{ row[0] }}<br>
+                            </th>
                 {% endfor %}
-        </tbody>
-    </table>
+            </tr>
+            <tr>
+                <th scope="col">weeks</th>
+                {% for row in datelist %}
+                            <th scope="col">{{ weekdays[row[1]] }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+
+            <tbody>          
+                {% for c in col %}
+                    <tr>
+                        <th scope="row">{{ '%02d' % c[0] }}:00 <br>-<br>{{ '%02d' % c[1] }}:00</th>
+                        {% for row in datelist %}
+                                    <td></td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 {% endblock %}

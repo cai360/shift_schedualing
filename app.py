@@ -2,7 +2,7 @@ from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta, time, date
 import random
 import string
 import calendar
@@ -232,6 +232,8 @@ def create_empty_shifts():
         rest_weeks = request.form.getlist('rest_weeks')
         rest_weeks_int = list(map(int, rest_weeks))
 
+
+
         try:
             sched = Schedule(year, month, starting_hour, ending_hour, interval)
             shifts = sched.generate_shifts()
@@ -240,9 +242,74 @@ def create_empty_shifts():
         except ValueError as e:
             return apology(str(e))
         
+        session["shifts"] = shifts
+        session["year"] = year
+        session["month"] = month
+        session["start"] = starting_hour
+        session["end"] = ending_hour
+        session["interval"] = interval
+        session["free_dates"] = sched.get_free_dates()
+        session["col"] = col
+        
 
         return render_template("create_empty_shifts2.html", datelist=shifts, year=year, month=month, interval=interval, col = col)
 
+
+
+@app.route("/modified_empty_shifts", methods=["GET", "POST"])
+@login_required
+def modified_empty_shifts():
+    if request.method == "GET":
+        return render_template("create_empty_shifts2.html")
+    if request.method =="POST":
+
+       
+        mode = request.form.get("action")
+        modified_value = request.form.get('modified')
+        
+
+        year = session.get("year")
+        month = session.get("month")
+        free_dates = session.get("free_dates", [])
+        shifts = session.get("shifts", [])
+        col = session.get("col", [])
+
+
+        #valid date 
+        date_s = f"{year}-{str(month).zfill(2)}-{modified_value.zfill(2)}"
+        
+
+        if not Schedule.is_valid_date(date_s):
+            return apology("Invaliad dates")
+
+
+
+        d = date(year, month, int(modified_value))
+        weekday = d.weekday()
+        value = (int(modified_value), weekday)
+
+        if mode == "add":
+            if value in free_dates:
+                free_dates.remove(value)
+            if value not in shifts:
+                shifts.append(value)
+            else: 
+                flash("Date already exists")
+
+        elif mode == "delete":
+            if value in shifts:
+                shifts.remove(value)
+                if value not in free_dates:
+                    free_dates.append(value)
+            else:
+                flash("Date doesn't exist")
+        
+        session["free_dates"] = free_dates
+        session["shifts"] = sorted(shifts)
+            
+            
+
+        return render_template("create_empty_shifts2.html", datelist=sorted(shifts), col = col)
 
 @app.route("/assign_shifts", methods=["GET", "POST"])
 @login_required

@@ -30,10 +30,18 @@ monthdays = cal.monthdayscalendar(2025, 3)
 
 sch = Schedule(2025, 4, 8, 17, 2)
 list = sch.generate_shifts()
-l = sch.rest_dates([0, 1])
+sch.rest_dates([0,1])
+col = sch.hour_interval()
+sch.get_free_dates()
 
 
-print(l)
+
+m_list = [(0, 1), (2, 1)]
+
+if (0, 1) in m_list:
+    print("在 list 裡")
+else:
+    print("不在 list 裡")
 
 
 
