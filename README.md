@@ -1,3 +1,5 @@
+
+```
 schedule-system/
 │
 ├── app/
@@ -15,4 +17,5 @@ schedule-system/
 ├── helper.py              ← login_required, apology 
 ├── schedule.py            
 ├── config.py              
-└── run.py                 ← entry of starting Flask 
+└── run.py                 ← entry of starting Flask
+```
