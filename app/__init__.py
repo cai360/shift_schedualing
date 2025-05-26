@@ -1,11 +1,7 @@
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, request, session
 from flask_session import Session
 
-
-from schedule import Schedule
-
-from helper import login_required, apology
 
 # Configure application
 db = SQL("sqlite:///shift_schedualing.db")

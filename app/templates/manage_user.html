@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/manageUsers" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" class="form-control mx-auto w-auto" name="user_id" placeholder="User ID" type="text">
+        </div>
+        
+        <button class="btn btn-primary" type="submit" name="action" value="add">Add</button>   
+        <button class="btn btn-primary" type="submit" name="action" value="delete">Delete</button>
+    </form>
+
+
+    <table>
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">User Id</th>
+            <th scope="col">Department</th>
+            <th scope="col">Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in employeelist %}
+            <tr>
+                <td>{{ row["username"] }}</td>
+                <td>{{ row["user_id"] }}</td>
+                <td>{{ row["department"]}}</td>
+                <td>{{ row["role"]}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}

@@ -13,9 +13,13 @@ from schedule import Schedule
 #3dR12vEL
 
 username = 'test1'
+userid = 'testid'
 password = "test0001"
+
+#test2/FoGfoZfo
 hash = generate_password_hash(password)
-result = check_password_hash( hash, "test0001")
+result = check_password_hash( "hash", "test0001")
+print(result)
 
 
 current_date = datetime.today()

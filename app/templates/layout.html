@@ -28,14 +28,13 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     {% if session["user_id"] and session["role"] == "manager" %}
                         <ul class="navbar-nav me-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/create_empty_shifts">Empty shift</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/assign_shifts">assign shifts</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/change_shift_m">change shift</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/approved_requests">approved_requests</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/register">add user</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/delete_user">delete user</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/history">history</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/print">print</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/create_empty_shifts">Empty Shift</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/assign_shifts">Assign Shifts</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/change_shift_m">Change Shift</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/approved_requests">Approved Requests</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/manageUsers">Manage User</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/print">Print</a></li>
                         </ul>
                         <ul class="navbar-nav ms-auto mt-2">
                             <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
@@ -57,7 +56,7 @@
                         
                     {% else %}
                         <ul class="navbar-nav ms-auto mt-2">
-                            <li class="nav-item"><a class="nav-link" href="/forgetPassword">forgetPassword</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/forgetPassword">Forget Password</a></li>
                             <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
                         </ul>
                     {% endif %}

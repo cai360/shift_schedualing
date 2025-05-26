@@ -11,55 +11,51 @@ from helper import login_required, apology
 
 bp = Blueprint("manager", __name__)
 
-@bp.route("/register", methods=["GET", "POST"])
+@bp.route("/manageUsers", methods=["GET", "POST"])
 @login_required
-def register():
+def toManageUsers():
     """to add employee or manager into system"""
+
+    employeelist = db.execute("SELECT username, user_id, department, role  FROM users")
+
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("manage_user.html", employeelist = employeelist)
     else:
+        mode = request.form.get("action")
         username = request.form.get("username")
-        role = request.form.get("role")
+        userID = request.form.get("user_id")
+        role = "employee"
 
-        # generate a temporary password, lengh: k=8
-        password = ''.join(random.choices(
-            string.ascii_letters + string.digits, k=8))
+        if mode == "add":
+            # generate a temporary password, lengh: k=8
+            password = ''.join(random.choices(
+                string.ascii_letters + string.digits, k=8))
 
-        hash = generate_password_hash(password)
+            hash = generate_password_hash(password)
 
-        # register the user
-        db.execute(
-            "INSERT INTO users (username, hash, role) VALUES(?, ?, ?)", username, hash, role)
+            # register the user
+            db.execute(
+                "INSERT INTO users (username, user_id, hash, role) VALUES(?, ?, ?, ?)", username, userID, hash, role)
 
-        flash("success! ")
-        flash("temporary password: " + password)
-        return render_template("register.html")
+            flash("success! ")
+            flash("temporary password: " + password)
+
+        elif mode == "delete":
+             row = db.execute("SELECT * FROM users WHERE username = ? AND user_id = ?",
+             username, request.form.get("user_id"))
+
+             if len(row) == 0:
+                return apology("User not found")
+             else:
+                db.execute("DELETE FROM users WHERE username = ? AND user_id = ?",
+                        request.form.get("username"), request.form.get("user_id"))
+                
+             flash("deleted!")
+
+        newList = db.execute("SELECT username, user_id, department, role FROM users")
+                      
+        return render_template("manage_user.html", employeelist = newList)
     
-
-@bp.route("/delete_user", methods=["GET", "POST"])
-@login_required
-def delete_user():
-    """to delete employee or manager from system"""
-    if request.method == "GET":
-        return render_template("delete_user.html")
-    else:
-        if not request.form.get("username"):
-            return apology("must provide username", 403)
-
-        elif not request.form.get("user_id"):
-            return apology("must provide user ID", 403)
-
-        # delete the user
-        row = db.execute("SELECT * FROM users WHERE username = ? AND user_id = ?",
-                         request.form.get("username"), request.form.get("user_id"))
-
-        if len(row) == 0:
-            return apology("User not found")
-        else:
-            db.execute("DELETE FROM users WHERE username = ? AND user_id = ?",
-                       request.form.get("username"), request.form.get("user_id"))
-            flash("deleted!")
-            return render_template("delete_user.html")
         
 
 @bp.route("/create_empty_shifts", methods=["GET", "POST"])
