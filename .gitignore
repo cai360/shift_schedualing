@@ -1,0 +1,36 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Flask instance folder
+instance/
+
+# Flask settings or secret config
+.env
+
+# SQLite database
+*.sqlite3
+*.db
+
+# Virtual environment
+venv/
+env/
+
+# VS Code settings
+.vscode/
+
+# macOS 系統檔
+.DS_Store
+
+# pip wheel
+*.egg-info/
+*.egg
+dist/
+build/
+
+# coverage/report files (for testing)
+htmlcov/
+coverage.xml
+.cache
+.pytest_cache/

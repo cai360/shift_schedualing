@@ -1,5 +1,4 @@
-import requests
-import calendar
+
 
 from flask import redirect, render_template, session
 from functools import wraps
@@ -10,7 +9,7 @@ def apology(message, code=400):
     def escape(s):
         """
         Escape special characters.
-
+        https://api.memegen.link/docs/#/Images/get~Images.index_custom
         https://github.com/jacebrowning/memegen#special-characters
         """
         for old, new in [
@@ -31,8 +30,7 @@ def apology(message, code=400):
 def login_required(f):
     """
     Decorate routes to require login.
-
-    https://flask.palletsprojects.com/en/latest/patterns/viewdecorators/
+  https://flask.palletsprojects.com/en/latest/patterns/viewdecorators/
     """
 
     @wraps(f)

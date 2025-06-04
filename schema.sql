@@ -1,8 +1,7 @@
 CREATE TABLE users(
     "id" INTEGER NOT NULL, 
-    "first_name" TEXT NOT NULL,
-    "last_name" TEXT NOT NULL,
-    "user_code" TEXT UNIQUE NOT NULL,
+    "username" TEXT NOT NULL,
+    "user_id" TEXT UNIQUE NOT NULL,
     "hash" TEXT NOT NULL,
     "department" TEXT,
     "role" TEXT NOT NULL CHECK("role" IN ('employee', 'manager')),
@@ -39,7 +38,7 @@ CREATE TABLE swaps(
     PRIMARY KEY("id"),
     FOREIGN KEY("shift_id") REFERENCES "shifts"("id") ON DELETE CASCADE,
     FOREIGN KEY("requester_id") REFERENCES "users"("id") ON DELETE CASCADE ,
-   FOREIGN KEY("responder_id") REFERENCES "users"("id") ON DELETE CASCADE,
+   FOREIGN KEY("responder_id") REFERENCES "users"("id") ON DELETE CASCADE
 ); 
 
 

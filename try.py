@@ -19,7 +19,7 @@ password = "test0001"
 #test2/FoGfoZfo
 hash = generate_password_hash(password)
 result = check_password_hash( "hash", "test0001")
-print(result)
+print(hash)
 
 
 current_date = datetime.today()
